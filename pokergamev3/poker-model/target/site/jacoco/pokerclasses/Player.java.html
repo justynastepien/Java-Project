@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Player.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">poker-model</a> &gt; <a href="index.source.html" class="el_package">pokerclasses</a> &gt; <span class="el_source">Player.java</span></div><h1>Player.java</h1><pre class="source lang-java linenums">package pokerclasses;
+
+import java.util.ArrayList;
+
+public class Player {
+<span class="fc" id="L6">    private ArrayList&lt;Card&gt; player_deck=new ArrayList&lt;Card&gt;();</span>
+    private int money; //ilość posiadanych pieniędzy
+<span class="fc" id="L8">    private boolean gra = true; //czy dany gracz bierze udział w rozgrywce</span>
+    private boolean pass;
+    private int table ; //na stole przez gracza
+    private String uklad;
+    private Card bestcard;
+    private int idUklad;
+
+<span class="fc" id="L15">    public Player(){</span>
+<span class="fc" id="L16">        this.money = 100;</span>
+<span class="fc" id="L17">        this.table = 0;</span>
+<span class="fc" id="L18">        pass = true;</span>
+<span class="fc" id="L19">    }</span>
+
+<span class="fc" id="L21">    public Player(Card a,Card b,Card c,Card d, Card e){</span>
+<span class="fc" id="L22">        player_deck.add(a);</span>
+<span class="fc" id="L23">        player_deck.add(b);</span>
+<span class="fc" id="L24">        player_deck.add(c);</span>
+<span class="fc" id="L25">        player_deck.add(d);</span>
+<span class="fc" id="L26">        player_deck.add(e);</span>
+<span class="fc" id="L27">    }</span>
+
+    public String getUklad(){
+<span class="nc" id="L30">        return uklad;</span>
+    }
+    public Card getBestcard(){
+<span class="fc" id="L33">        return bestcard;</span>
+    }
+
+    public int getIdUklad() {
+<span class="fc" id="L37">        return idUklad;</span>
+    }
+
+    public int getTable() {
+<span class="nc" id="L41">        return table;</span>
+    }
+
+    public boolean isGra() {
+<span class="nc" id="L45">        return gra;</span>
+    }
+
+    public boolean isPass() {
+<span class="nc" id="L49">        return pass;</span>
+    }
+
+    public void setPass(boolean pass) {
+<span class="nc" id="L53">        this.pass = pass;</span>
+<span class="nc" id="L54">    }</span>
+
+    public int getMoney() {
+<span class="nc" id="L57">        return money;</span>
+    }
+
+    public ArrayList&lt;Card&gt; getPlayer_deck() {
+<span class="fc" id="L61">        return player_deck;</span>
+    }
+
+    public void give_money(int n){
+<span class="nc" id="L65">        money = money - n;</span>
+<span class="nc" id="L66">    }</span>
+
+    //przy rozdawaniu
+    public void add_to_deck(Card card, int karta){
+<span class="nc" id="L70">        player_deck.add(karta,card);</span>
+<span class="nc" id="L71">    }</span>
+
+    public void remove_from_deck(int karta){
+<span class="nc" id="L74">        player_deck.remove(karta);</span>
+<span class="nc" id="L75">    }</span>
+
+    public void add_to_table(int n){
+<span class="nc" id="L78">        this.table = this.table +n;</span>
+<span class="nc" id="L79">    }</span>
+
+    public String show_deck(){
+<span class="nc" id="L82">        String temp = new String();</span>
+<span class="nc" id="L83">        String all = new String();</span>
+
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        for(Card e : player_deck){</span>
+            //System.out.println(e.getRank().toString() + &quot; &quot; + e.getSuit().toString());
+<span class="nc" id="L87">            temp = e.getRank().toString() + &quot; &quot; + e.getSuit().toString();</span>
+<span class="nc" id="L88">            all = all + &quot; | &quot; +temp;</span>
+<span class="nc" id="L89">        }</span>
+<span class="nc" id="L90">        return all;</span>
+    }
+
+    public void setUkladzik (String ukladx, Card bestcardx, int iduklad){
+<span class="fc" id="L94">        this.uklad = ukladx;</span>
+<span class="fc" id="L95">        this.bestcard = bestcardx;</span>
+<span class="fc" id="L96">        this.idUklad = iduklad;</span>
+<span class="fc" id="L97">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

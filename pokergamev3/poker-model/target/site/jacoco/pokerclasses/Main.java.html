@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">poker-model</a> &gt; <a href="index.source.html" class="el_package">pokerclasses</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package pokerclasses;
+import java.util.*;
+import java.io.IOException;
+
+<span class="nc" id="L5">public class Main {</span>
+
+    public final static void clearConsole()
+    {
+        try
+        {
+<span class="nc" id="L11">            final String os = System.getProperty(&quot;os.name&quot;);</span>
+
+<span class="nc bnc" id="L13" title="All 2 branches missed.">            if (os.contains(&quot;Windows&quot;))</span>
+            {
+<span class="nc" id="L15">                Runtime.getRuntime().exec(&quot;cls&quot;);</span>
+            }
+            else
+            {
+<span class="nc" id="L19">                Runtime.getRuntime().exec(&quot;clear&quot;);</span>
+            }
+        }
+<span class="nc" id="L22">        catch (final Exception e)</span>
+        {
+            //  Handle any exceptions.
+<span class="nc" id="L25">        }</span>
+<span class="nc" id="L26">    }</span>
+
+    public static void main(String[] args) throws IOException {
+<span class="nc" id="L29">        showStartInterface();</span>
+<span class="nc" id="L30">        Scanner scan = new Scanner(System.in);</span>
+<span class="nc" id="L31">        int gameMode= scan.nextInt();</span>
+
+
+
+<span class="nc" id="L35">        Player player1 = new Player();</span>
+<span class="nc" id="L36">        Player player2 = new Player();</span>
+<span class="nc" id="L37">        Player player3 = new Player();</span>
+<span class="nc" id="L38">        Player player4 = new Player();</span>
+<span class="nc" id="L39">        Player[] players = new Player[4];</span>
+<span class="nc" id="L40">        players[0] = player1;</span>
+<span class="nc" id="L41">        players[1] = player2;</span>
+<span class="nc" id="L42">        players[2] = player3;</span>
+<span class="nc" id="L43">        players[3] = player4;</span>
+<span class="nc" id="L44">        Game game = new Game(players);</span>
+<span class="nc" id="L45">        Deck deck = new Deck();</span>
+
+<span class="nc" id="L47">        deck.shuffle();</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for(Player player : players)</span>
+<span class="nc" id="L49">            deck.deal(player);</span>
+
+        while(true){
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            for(Player player : players)</span>
+<span class="nc" id="L53">                showInterface(player,game);</span>
+
+<span class="nc" id="L55">            game.pick_ante();</span>
+<span class="nc" id="L56">            System.out.println(&quot;Ante was picked&quot;);</span>
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            for(Player player : players){</span>
+<span class="nc" id="L59">                showInterface(player,game);</span>
+<span class="nc" id="L60">                System.out.println(&quot;How many cards do you want to change?&quot;);</span>
+<span class="nc" id="L61">                int number = scan.nextInt();</span>
+<span class="nc" id="L62">                game.exchange(player,number,deck);</span>
+<span class="nc" id="L63">                showInterface(player,game);</span>
+           }
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            for(int i=0; i&lt;2;i++){</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                for(Player player : players){</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                    if(player.isGra()==true)</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                        if(player.isPass() == true){</span>
+<span class="nc" id="L70">                            showInterface(player,game);</span>
+<span class="nc" id="L71">                            System.out.println(&quot;[1] to pass&quot;);</span>
+<span class="nc" id="L72">                            System.out.println(&quot;[2] to bet&quot;);</span>
+<span class="nc" id="L73">                            System.out.println();</span>
+<span class="nc" id="L74">                            int to = scan.nextInt();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                             if(to == 1)</span>
+<span class="nc" id="L76">                                player.setPass(false);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                             else if(to == 2){</span>
+<span class="nc" id="L78">                                 System.out.println(&quot;How much?&quot;);</span>
+<span class="nc" id="L79">                                 int cash = scan.nextInt();</span>
+<span class="nc" id="L80">                                 game.bet(player,cash);</span>
+                             }
+                        }
+                }
+            }
+
+            break;
+        }
+
+<span class="nc" id="L89">    }</span>
+
+    private static void showStartInterface(){
+<span class="nc" id="L92">        System.out.println(&quot;|--------POKER---------|&quot;);</span>
+<span class="nc" id="L93">        System.out.println();</span>
+<span class="nc" id="L94">        System.out.println(&quot;Play game [1]&quot;);</span>
+<span class="nc" id="L95">    }</span>
+
+    private static void showInterface(Player player,Game game){
+<span class="nc" id="L98">        System.out.println(&quot;Money on the table: &quot; + game.getTable());</span>
+<span class="nc" id="L99">        System.out.println(&quot;Your money: &quot; + player.getMoney());</span>
+<span class="nc" id="L100">        System.out.println();</span>
+<span class="nc" id="L101">        System.out.println(&quot;Your cards : &quot; ); player.show_deck();</span>
+<span class="nc" id="L102">        System.out.println();</span>
+<span class="nc" id="L103">        System.out.println();</span>
+<span class="nc" id="L104">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

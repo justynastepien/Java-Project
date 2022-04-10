@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Game.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">poker-model</a> &gt; <a href="index.source.html" class="el_package">pokerclasses</a> &gt; <span class="el_source">Game.java</span></div><h1>Game.java</h1><pre class="source lang-java linenums">package pokerclasses;
+
+import java.util.*;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class Game {
+    private int table;
+<span class="fc" id="L9">    private static int ante = 2;</span>
+<span class="fc" id="L10">    private Player[]players = new Player[4];</span>
+
+
+<span class="fc" id="L13">    public Game(){}</span>
+<span class="fc" id="L14">    public Game(Player[] playersx){</span>
+<span class="fc" id="L15">        this.players = playersx;</span>
+<span class="fc" id="L16">        table = 0;</span>
+<span class="fc" id="L17">    }</span>
+
+    public int getTable() {
+<span class="nc" id="L20">        return table;</span>
+    }
+
+    public void pick_ante(){
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        for(Player e: players){</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">            if(e.isGra() == true)</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">                if(e.getMoney() &gt;= ante){</span>
+<span class="nc" id="L27">                    e.give_money(ante);</span>
+<span class="nc" id="L28">                    table += ante;</span>
+            }
+<span class="nc bnc" id="L30" title="All 2 branches missed.">            else if(e.getMoney() &lt; ante){</span>
+<span class="nc" id="L31">                e.setPass(false);</span>
+                }
+        }
+<span class="nc" id="L34">    }</span>
+
+    public void exchange (Player player, int n, Deck deck) {   //player i ile kart chcę wymienić dla danego playera
+<span class="nc" id="L37">        int i = 0;</span>
+<span class="nc" id="L38">        int[] tab = new int[n];</span>
+<span class="nc" id="L39">        Card cardb = new Card();</span>
+<span class="nc" id="L40">        Scanner scan = new Scanner(System.in);</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        while (i &lt; n) {</span>
+<span class="nc" id="L42">            System.out.println(&quot;Ktora karte chcesz wymienic?&quot;);</span>
+<span class="nc" id="L43">            int karta = scan.nextInt();</span>
+<span class="nc" id="L44">            tab[i] = karta-1;</span>
+<span class="nc" id="L45">            i++;</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">        Arrays.sort(tab);</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for(int j=tab.length-1; j&gt;=0; j--){</span>
+<span class="nc" id="L49">                    player.remove_from_deck(tab[j]);</span>
+<span class="nc" id="L50">                    deck.give_one_card(player,tab[j]);</span>
+            }
+<span class="nc" id="L52">    }</span>
+
+    public void bet (Player player, int n){ //postawione pieniadze
+        //Scanner scan = new Scanner(System.in);
+<span class="nc" id="L56">        player.give_money(n);</span>
+<span class="nc" id="L57">        player.add_to_table(n);</span>
+<span class="nc" id="L58">        table = table + n;</span>
+<span class="nc" id="L59">    }</span>
+    //System.out.println(Card.Rank.FOUR.getValues()+ &quot; &quot;+ Card.Rank.QUEEN.getValues());
+
+    public Card higher_Card(ArrayList&lt;Card&gt; deckp){
+<span class="fc" id="L63">        int v = 0;</span>
+<span class="fc" id="L64">        Card cardb = new Card();</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        for(Card card : deckp){</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            if((card.getRank()).getValues() &gt; v) {</span>
+<span class="fc" id="L67">                v = (card.getRank()).getValues();</span>
+<span class="fc" id="L68">                cardb = card;</span>
+            }
+<span class="fc" id="L70">        }</span>
+<span class="fc" id="L71">        return cardb;</span>
+    }
+
+    public Card pair(ArrayList&lt;Card&gt; deckp){
+<span class="fc" id="L75">        int v = 0;</span>
+<span class="fc" id="L76">        Card cardb = new Card();</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        for(int i=0; i&lt;deckp.size();i++)</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">            for(int j=i+1; j&lt;deckp.size(); j++){</span>
+<span class="fc bfc" id="L79" title="All 4 branches covered.">                if(deckp.get(i).getRank().getValues() == deckp.get(j).getRank().getValues() &amp;&amp; deckp.get(i).getRank().getValues() &gt; v){</span>
+<span class="fc" id="L80">                    v = deckp.get(i).getRank().getValues();</span>
+<span class="fc" id="L81">                    cardb = deckp.get(i);</span>
+                }
+            }
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        if(v==0)</span>
+<span class="fc" id="L85">            return null;</span>
+
+<span class="fc" id="L87">        return cardb;</span>
+    }
+
+    public Card two_Pairs(ArrayList&lt;Card&gt; deckp){
+
+<span class="fc" id="L92">        Card cardb = this.pair(deckp);</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if(cardb == null)</span>
+<span class="fc" id="L94">            return null;</span>
+
+        //v = cardb.getRank().getValues();
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        for(int i=0; i&lt;5; i++){</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">            if(deckp.get(i).equals(cardb)){</span>
+<span class="fc" id="L99">                deckp.remove(i);</span>
+<span class="fc" id="L100">            break;</span>
+            }
+        }
+<span class="fc" id="L103">        Card cardk = this.pair(deckp);</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">         if(cardk == null)</span>
+<span class="nc" id="L105">             return null;</span>
+
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">         if(cardb.getRank().getValues() &gt;= cardk.getRank().getValues())</span>
+<span class="fc" id="L108">             return cardb;</span>
+
+<span class="nc" id="L110">         return cardk;</span>
+    }
+
+    public Card three(ArrayList&lt;Card&gt; deckp){
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        if(this.pair(deckp) == null) return null;</span>
+        Card cardb;
+
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        for(int i=0; i&lt;3; i++)</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">            for(int j=i+1; j&lt;4; j++)</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">                for(int k=j+1; k&lt;5; k++){</span>
+<span class="pc bpc" id="L120" title="1 of 4 branches missed.">                    if(deckp.get(i).getRank().getValues() == deckp.get(j).getRank().getValues() &amp;&amp; deckp.get(i).getRank().getValues() == deckp.get(k).getRank().getValues()) {</span>
+<span class="fc" id="L121">                        cardb = deckp.get(i);</span>
+<span class="fc" id="L122">                        return cardb;</span>
+                    }
+                }
+<span class="nc" id="L125">        return null;</span>
+    }
+
+    public Card streat(ArrayList&lt;Card&gt; deckp){
+<span class="fc" id="L129">        Card cardb = new Card();</span>
+
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        for (int i = 0; i &lt; deckp.size() - 1; i++)</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">            for (int j = 0; j &lt; deckp.size() - 1; j++){</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">                if(deckp.get(j).getRank().getValues() &gt; deckp.get(j+1).getRank().getValues()){</span>
+<span class="fc" id="L134">                    Collections.swap(deckp,j, j+1);</span>
+                }
+            }
+<span class="pc bpc" id="L137" title="3 of 10 branches missed.">        if(deckp.get(4).getRank().getValues()==14 &amp;&amp; deckp.get(0).getRank().getValues()==2 &amp;&amp; deckp.get(1).getRank().getValues()==3 &amp;&amp; deckp.get(2).getRank().getValues()==4 &amp;&amp; deckp.get(3).getRank().getValues()==5){</span>
+<span class="fc" id="L138">            cardb = deckp.get(3);</span>
+<span class="fc" id="L139">            return cardb;</span>
+        }
+<span class="fc" id="L141">        int  previous = deckp.get(0).getRank().getValues();</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        for(int i=1; i&lt;5;i++){</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">            if(deckp.get(i).getRank().getValues() == previous +1){</span>
+<span class="fc" id="L144">                previous = deckp.get(i).getRank().getValues();</span>
+<span class="fc" id="L145">                continue;</span>
+            }
+            else
+<span class="fc" id="L148">                return null;</span>
+        }
+<span class="fc" id="L150">        cardb = deckp.get(4);</span>
+<span class="fc" id="L151">        return cardb;</span>
+
+    }
+    public Card colour(ArrayList&lt;Card&gt; deckp){
+<span class="fc" id="L155">        Card cardb = deckp.get(0);</span>
+
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        for(Card e : deckp){</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">            if(cardb.getSuit().equals(e.getSuit())){</span>
+<span class="fc" id="L159">                continue;</span>
+            }
+<span class="fc" id="L161">            return null;</span>
+        }
+
+<span class="fc" id="L164">        cardb = deckp.get(4);</span>
+<span class="fc" id="L165">        return cardb;</span>
+    }
+    public Card full(ArrayList&lt;Card&gt; deckp){
+<span class="fc" id="L168">        Card cardb = this.three(deckp);</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">        if(cardb == null)</span>
+<span class="fc" id="L170">            return  null;</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">        for(int i=0; i&lt; deckp.size();i++){</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">            if(deckp.get(i).getRank().getValues()==cardb.getRank().getValues()){</span>
+<span class="fc" id="L173">                deckp.remove(i);</span>
+            }
+        }
+<span class="fc" id="L176">        Card b = this.pair(deckp);</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">        if(b == null)</span>
+<span class="nc" id="L178">            return null;</span>
+<span class="fc" id="L179">        return cardb;</span>
+    }
+    public Card carets(ArrayList&lt;Card&gt; deckp) {
+<span class="fc bfc" id="L182" title="All 2 branches covered.">        for(int i=0; i&lt;2; i++)</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">            for(int j=i+1; j&lt;3; j++)</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">                for(int k=j+1; k&lt;4; k++)</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">                    for(int l=k+1; l&lt;5; l++) {</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">                        if(deckp.get(i).getRank().getValues() == deckp.get(j).getRank().getValues() &amp;&amp;</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">                                deckp.get(i).getRank().getValues() == deckp.get(k).getRank().getValues() &amp;&amp;</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">                                deckp.get(i).getRank().getValues() == deckp.get(k).getRank().getValues()) {</span>
+<span class="fc" id="L189">                            return deckp.get(i);</span>
+                        }
+                    }
+<span class="fc" id="L192">        return null;</span>
+    }
+    public Card poker(ArrayList&lt;Card&gt; deckp){
+<span class="fc" id="L195">        Card cardb = this.streat(deckp);</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if(cardb == null)</span>
+<span class="fc" id="L197">            return null;</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        if(this.colour(deckp) == null)</span>
+<span class="nc" id="L199">            return null;</span>
+<span class="fc" id="L200">        return cardb;</span>
+    }
+
+    public Player checking (){
+        ArrayList&lt;Card&gt; deckp;
+<span class="fc" id="L205">        Player bestPlayer = new Player();</span>
+<span class="fc" id="L206">        int best=0;</span>
+        Card cardb;
+<span class="fc" id="L208">        int[] tab = {0,0,0,0};</span>
+
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        for(Player player : players){</span>
+<span class="fc" id="L211">            deckp = player.getPlayer_deck();</span>
+
+<span class="fc bfc" id="L213" title="All 2 branches covered.">            if(this.poker(deckp) != null){</span>
+<span class="fc" id="L214">                cardb = this.poker(deckp);</span>
+<span class="fc" id="L215">                player.setUkladzik(&quot;Poker&quot;, cardb, 9);</span>
+<span class="fc" id="L216">                continue;</span>
+            }
+
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">            if(this.carets(deckp) != null){</span>
+<span class="nc" id="L220">                cardb = this.carets(deckp);</span>
+<span class="nc" id="L221">                player.setUkladzik(&quot;Carets&quot;, cardb, 8);</span>
+<span class="nc" id="L222">                continue;</span>
+            }
+
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">            if(this.full(deckp) != null){</span>
+<span class="nc" id="L226">                cardb = this.full(deckp);</span>
+<span class="nc" id="L227">                player.setUkladzik(&quot;Full&quot;, cardb, 7);</span>
+<span class="nc" id="L228">                continue;</span>
+            }
+
+<span class="fc bfc" id="L231" title="All 2 branches covered.">            if(this.colour(deckp) != null){</span>
+<span class="fc" id="L232">                cardb = this.colour(deckp);</span>
+<span class="fc" id="L233">                player.setUkladzik(&quot;Colour&quot;, cardb, 6);</span>
+<span class="fc" id="L234">                continue;</span>
+            }
+
+<span class="pc bpc" id="L237" title="1 of 2 branches missed.">            if(this.streat(deckp) != null){</span>
+<span class="nc" id="L238">                cardb = this.streat(deckp);</span>
+<span class="nc" id="L239">                player.setUkladzik(&quot;Streat&quot;, cardb, 5);</span>
+<span class="nc" id="L240">                continue;</span>
+            }
+
+<span class="pc bpc" id="L243" title="1 of 2 branches missed.">            if(this.three(deckp) != null){</span>
+<span class="nc" id="L244">                cardb = this.three(deckp);</span>
+<span class="nc" id="L245">                player.setUkladzik(&quot;Three&quot;, cardb, 4);</span>
+<span class="nc" id="L246">                continue;</span>
+            }
+
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">            if(this.two_Pairs(deckp) != null){</span>
+<span class="nc" id="L250">                cardb = this.two_Pairs(deckp);</span>
+<span class="nc" id="L251">                player.setUkladzik(&quot;TwoPairs&quot;, cardb, 3);</span>
+<span class="nc" id="L252">                continue;</span>
+            }
+
+<span class="pc bpc" id="L255" title="1 of 2 branches missed.">            if(this.pair(deckp) != null){</span>
+<span class="nc" id="L256">                cardb = this.pair(deckp);</span>
+<span class="nc" id="L257">                player.setUkladzik(&quot;Pair&quot;, cardb, 2);</span>
+<span class="nc" id="L258">                continue;</span>
+            }
+
+<span class="pc bpc" id="L261" title="1 of 2 branches missed.">            if(this.higher_Card(deckp) != null){</span>
+<span class="fc" id="L262">                cardb = this.higher_Card(deckp);</span>
+<span class="fc" id="L263">                player.setUkladzik(&quot;HigherCard&quot;, cardb, 1);</span>
+<span class="fc" id="L264">                continue;</span>
+            }
+        }
+<span class="fc" id="L267">        int p = 0;</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">        for(Player player : players){</span>
+<span class="fc" id="L269">            tab[p] = player.getIdUklad(); p++;</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">            if(player.getIdUklad()&gt;best){</span>
+<span class="fc" id="L271">                bestPlayer = player;</span>
+<span class="fc" id="L272">                best = player.getIdUklad();</span>
+            }
+        }
+<span class="fc bfc" id="L275" title="All 2 branches covered.">        for(int i = 0; i&lt;4; i++){</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">            if(tab[i]==best){</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">                if(players[i].getBestcard().getRank().getValues() &gt; bestPlayer.getBestcard().getRank().getValues()){</span>
+<span class="fc" id="L278">                    bestPlayer = players[i];</span>
+                }
+            }
+        }
+<span class="fc" id="L282">        return bestPlayer;</span>
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
