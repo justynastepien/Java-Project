@@ -108,35 +108,5 @@ public class Server {
                 return;}
             }
 
-       // }
-//    class NetReader extends Thread {
-//        BufferedReader in;
-//        PrintWriter out;
-//        Socket socket;
-//
-//        public NetReader(Socket client, BufferedReader in, PrintWriter out) {
-//            this.in = in;
-//            this.out = out;
-//            this.socket = client;
-//        }
-
-//        public void run() {
-//            try {
-//                String msg = in.readLine();
-//                System.out.println("Received from " + socket.getInetAddress() + " " + msg);
-//                if (msg.equalsIgnoreCase("ping")) {
-//                    out.println("PONG");
-//                    System.out.println("Sent: PONG");
-//                }
-//                else
-//                    out.println("What game are you playing???");
-//                out.flush();
-//                socket.close();
-//            } catch (IOException e) {
-//                System.out.println(e);
-//                return;
-//            }
-//        }
-//    }
     }
 }
