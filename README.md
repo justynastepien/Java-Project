@@ -1,2 +1,2 @@
-# Java-Project
+# Java-Projects
 Projekty wykonywane w języku Java.
